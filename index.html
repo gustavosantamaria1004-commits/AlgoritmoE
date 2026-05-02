@@ -3,167 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio Químico Pro - 8.º</title>
+    <title>Laboratorio Químico Pro - 8.º Grado</title>
     <style>
+        /* CSS: DISEÑO DE ALTO NIVEL Y ACCESIBILIDAD */
         :root {
-            --primary: #0056b3;
+            --primary: #0056b3; /* Azul profesional */
             --secondary: #e7f1ff;
+            --accent: #0dcaf0;
             --white: #ffffff;
             --text: #212529;
-            --accent: #0dcaf0;
+            --bg: #f8f9fa;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
             color: var(--text);
             margin: 0;
+            line-height: 1.6;
         }
 
-        /* Navegación Profesional */
+        /* NAVEGACIÓN */
         .navbar {
             background: var(--primary);
+            color: white;
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
-            color: white;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky; top: 0; z-index: 100;
         }
 
         .nav-links button {
-            background: none; border: none; color: white;
-            padding: 10px; cursor: pointer; opacity: 0.8;
+            background: none;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: 0.3s;
         }
 
-        .nav-links button.active { opacity: 1; border-bottom: 2px solid var(--accent); }
+        .nav-links button.active {
+            background: rgba(255,255,255,0.2);
+            font-weight: bold;
+            border-bottom: 3px solid var(--accent);
+        }
 
-        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        /* CONTENEDOR */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
 
-        /* Secciones */
-        .tab-content { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .tab-content.active { display: block; animation: slideIn 0.3s ease; }
+        /* SECCIONES */
+        .tab-content {
+            display: none;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            animation: fadeIn 0.4s ease;
+        }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active { display: block; }
 
-        /* DISEÑO DE LA TABLA DINÁMICA */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TABLA PERIÓDICA DINÁMICA */
         .grid-tabla {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
-        .card-elemento {
-            border: 2px solid var(--secondary);
+        .element-card {
+            border: 1px solid #dee2e6;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             text-align: center;
+            background: white;
             transition: 0.3s;
             cursor: pointer;
         }
 
-        .card-elemento:hover {
+        .element-card:hover {
             border-color: var(--primary);
-            background: var(--secondary);
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .card-elemento .simbolo { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
-        .card-elemento .numero { font-size: 0.8rem; color: #666; }
+        .el-z { font-size: 0.8rem; color: #666; display: block; }
+        .el-symbol { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
+        .el-name { font-size: 0.9rem; font-weight: 500; }
+        .el-mass { font-size: 0.75rem; color: #888; }
 
+        /* ESTILOS DIDÁCTICOS */
         .info-box {
-            border-left: 5px solid var(--primary);
             background: var(--secondary);
-            padding: 15px;
-            margin: 15px 0;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
         }
+
+        h1 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo">🧪 InfoQuim 8.º</div>
+        <div class="logo">🧪 <strong>InfoQuim 8.º</strong></div>
         <div class="nav-links">
-            <button class="t-btn active" onclick="navegar(event, 'inicio')">Átomo</button>
+            <button class="t-btn active" onclick="navegar(event, 'inicio')">El Átomo</button>
             <button class="t-btn" onclick="navegar(event, 'tabla')">Tabla Periódica</button>
+            <button class="t-btn" onclick="navegar(event, 'modelos')">Modelos</button>
             <button class="t-btn" onclick="navegar(event, 'enlaces')">Enlaces</button>
         </div>
     </nav>
 
     <div class="container">
-        <!-- SECCIÓN INICIO -->
+        <!-- SECCIÓN: EL ÁTOMO -->
         <section id="inicio" class="tab-content active">
-            <h1>El Átomo en 8.º Grado</h1>
-            <p>El átomo es la unidad básica de la materia. Se compone de un núcleo y una corteza.</p>
+            <h1>Estructura del Átomo</h1>
+            <p>El átomo es la partícula más pequeña de un elemento que mantiene su identidad química.</p>
             <div class="info-box">
-                <p><strong>Dato Maestro:</strong> El número de protones es el "DNI" del átomo; nunca cambia para un mismo elemento[cite: 1].</p>
+                <h3>Partículas Subatómicas</h3>
+                <ul>
+                    <li><strong>Protones (p+):</strong> Carga positiva, definen el número atómico (Z)[cite: 1].</li>
+                    <li><strong>Neutrones (n°):</strong> Sin carga, aportan masa al núcleo[cite: 1].</li>
+                    <li><strong>Electrones (e-):</strong> Carga negativa, se encuentran en la corteza[cite: 1].</li>
+                </ul>
             </div>
         </section>
 
-        <!-- SECCIÓN TABLA (CARGA DINÁMICA) -->
+        <!-- SECCIÓN: TABLA PERIÓDICA (AUTO-GENERADA) -->
         <section id="tabla" class="tab-content">
-            <h1>Explorador de Elementos</h1>
-            <p>Esta tabla se genera automáticamente desde tu archivo <code>elementos.json</code>.</p>
-            <div id="contenedor-elementos" class="grid-tabla">
-                <!-- Aquí JavaScript insertará los elementos -->
-                <p>Cargando elementos...</p>
+            <h1>Tabla Periódica de los Elementos</h1>
+            <p>Los elementos están organizados por su número atómico creciente[cite: 1]. Haz clic en la pestaña para actualizar.</p>
+            <div id="tabla-dinamica" class="grid-tabla">
+                <!-- El JavaScript llenará esto automáticamente -->
             </div>
         </section>
 
-        <!-- SECCIÓN ENLACES -->
-        <section id="enlaces" class="tab-content">
-            <h1>Enlaces Químicos</h1>
+        <!-- SECCIÓN: MODELOS -->
+        <section id="modelos" class="tab-content">
+            <h1>Modelos Atómicos Históricos</h1>
             <div class="info-box">
-                <h3>Enlace Iónico</h3>
-                <p>Transferencia de electrones. Típico entre un metal y un no metal[cite: 1].</p>
+                <h3>Modelo de Bohr (1913)</h3>
+                <p>Propuso que los electrones orbitan el núcleo en niveles de energía discretos[cite: 1].</p>
+            </div>
+            <div class="info-box">
+                <h3>Modelo de Rutherford (1911)</h3>
+                <p>Demostró la existencia de un núcleo central pequeño y denso con carga positiva[cite: 1].</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: ENLACES -->
+        <section id="enlaces" class="tab-content">
+            <h1>Uniones Químicas</h1>
+            <p>Los átomos se unen para alcanzar una configuración electrónica más estable, generalmente completando su octeto[cite: 1].</p>
+            <div class="info-box">
+                <p><strong>Enlace Iónico:</strong> Transferencia de electrones entre metal y no metal[cite: 1].</p>
+                <p><strong>Enlace Covalente:</strong> Intercambio compartido de electrones entre no metales[cite: 1].</p>
             </div>
         </section>
     </div>
 
     <script>
-        // FUNCIÓN DE NAVEGACIÓN
+        // DATOS INTEGRADOS (No necesitas un archivo .json externo)
+        const elementos = [
+            { z: 1, s: "H", n: "Hidrógeno", m: 1.008 },
+            { z: 2, s: "He", n: "Helio", m: 4.002 },
+            { z: 3, s: "Li", n: "Litio", m: 6.941 },
+            { z: 4, s: "Be", n: "Berilio", m: 9.012 },
+            { z: 5, s: "B", n: "Boro", m: 10.81 },
+            { z: 6, s: "C", n: "Carbono", m: 12.01 },
+            { z: 7, s: "N", n: "Nitrógeno", m: 14.01 },
+            { z: 8, s: "O", n: "Oxígeno", m: 16.00 },
+            { z: 9, s: "F", n: "Flúor", m: 19.00 },
+            { z: 10, s: "Ne", n: "Neón", m: 20.18 }
+            // Puedes agregar más siguiendo este formato
+        ];
+
+        // LÓGICA DE NAVEGACIÓN
         function navegar(e, id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+            
             document.getElementById(id).classList.add('active');
             e.currentTarget.classList.add('active');
 
-            if(id === 'tabla') cargarTabla();
+            if(id === 'tabla') generarTabla();
         }
 
-        // FUNCIÓN PARA LEER EL JSON Y CREAR LA TABLA
-        async function cargarTabla() {
-            const contenedor = document.getElementById('contenedor-elementos');
-            
-            try {
-                // Intentamos leer el archivo
-                const respuesta = await fetch('elementos.json');
-                const datos = await respuesta.json();
-                
-                // Limpiamos el mensaje de "Cargando"
-                contenedor.innerHTML = '';
+        // GENERADOR DE TABLA
+        function generarTabla() {
+            const contenedor = document.getElementById('tabla-dinamica');
+            contenedor.innerHTML = ''; // Limpiar antes de llenar
 
-                // Dibujamos cada elemento
-                datos.forEach(el => {
-                    contenedor.innerHTML += `
-                        <div class="card-elemento">
-                            <div class="numero">${el.z}</div>
-                            <div class="simbolo">${el.simbolo}</div>
-                            <div class="nombre">${el.nombre}</div>
-                            <div style="font-size: 0.7rem">${el.grupo}</div>
-                        </div>
-                    `;
-                });
-            } catch (error) {
-                contenedor.innerHTML = `
-                    <div style="color: red; padding: 20px;">
-                        <strong>Error de carga:</strong> Para ver la tabla dinámica, 
-                        asegúrate de que el archivo 'elementos.json' esté en la misma carpeta 
-                        y que estés viendo la página desde GitHub o un servidor local.
-                    </div>`;
-            }
+            elementos.forEach(el => {
+                contenedor.innerHTML += `
+                    <div class="element-card">
+                        <span class="el-z">${el.z}</span>
+                        <div class="el-symbol">${el.s}</div>
+                        <div class="el-name">${el.n}</div>
+                        <div class="el-mass">${el.m}</div>
+                    </div>
+                `;
+            });
         }
+
+        // Inicializar la tabla al cargar por si acaso
+        window.onload = generarTabla;
     </script>
 </body>
 </html>
